@@ -1,30 +1,19 @@
-import {useState} from 'react';
-import NewPost from './NewPost';
+import { useLoaderData } from "react-router-dom";
 import Post from './Post';
 import classes from './PostList.module.css';
-import Modal from "./Modal.jsx";
 
-function PostList ({hideModalHandler, modalIsVisible}) {
-    const [posts, setPosts] = useState([]);
+function PostList() {
+    const posts = useLoaderData();
 
-    const addPostsHandler = (newPost) => {
-        setPosts((existingPosts) => [newPost, ...existingPosts]);
-    }
-
-    return(
+    return (
         <>
-            { modalIsVisible && (
-                <Modal onClose={hideModalHandler} modalIsVisible={modalIsVisible}>
-                    <NewPost onCloseModal={hideModalHandler} onAddPost={addPostsHandler}/>
-                </Modal>
-            )}
             {
                 posts.length > 0 && (
                     <ul className={classes.posts}>
                         {
                             posts.map((post) => {
-                                return  <li>
-                                    <Post key={Math.random()} author={post.author} body={post.body} />
+                                return <li>
+                                    <Post key={post.id} id={post.id} author={post.author} body={post.body}/>
                                 </li>;
                             })
                         }
